@@ -1,0 +1,36 @@
+The design of the program currently is to take a collection of whale tail images 
+and match them with previously taken images
+
+The program will do this through the following process
+1. Extracting the images from a PDF into a collection of folders of different example folders (future feature)
+2. Automatic background removal from the image (in progress)
+3. feature removal (optional)
+4. Training a convd model/dense model (depending on feature extraction) for image classification
+5. Using the trained model to match new photos to existing ones
+
+Upcoming features:
+1. GUI that combines all the steps above
+2. a parrallel process for setting a pointer and extracting masks (for background cropping)
+3. A functional conv2D model
+
+Objectives:
+1. Automate the whale identification process as much as possible
+2. make the identification of whales as accurate as possible
+3. Make the program extremely easy to use even for non-technical users
+
+
+Programs and how they function:
+
+    Cropper:
+    The cropper program, takes an image and a pointer location then uses grounded-SAM () to generate
+    3 masks over the selected area (to try and place a mask over the tail)
+
+    ![alt text](image.png)
+
+    The user then chooses between the 3 images or adjusts the pointer (to generate another 3 masks)
+
+    ![alt text](image-1.png)
+
+    After the mask has been confirmed the program then removes the background and saves the image to a new database folder system to be used in the next program
+
+    
