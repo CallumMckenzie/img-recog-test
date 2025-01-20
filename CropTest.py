@@ -1,6 +1,6 @@
 import numpy as np
 import cv2
-from segment_anything import SamPredictor, sam_model_registry
+from segment_anything import SamPredictor, sam_model_registry #Sam file must be in same directory to function
 import matplotlib.pyplot as plt
 import torch
 import sys
@@ -28,9 +28,6 @@ def show_box(box, ax):
     x0, y0 = box[0], box[1]
     w, h = box[2] - box[0], box[3] - box[1]
     ax.add_patch(plt.Rectangle((x0, y0), w, h, edgecolor='green', facecolor=(0,0,0,0), lw=2))  
-
-
-
 
 def Cropper(path):
     def runPredict(input_point):
@@ -118,40 +115,37 @@ def Cropper(path):
     plt.show()
     return masked_image
 
+def Process(main_old_folder, main_new_folder):
+    for sub_folder in os.listdir(main_old_folder):
+        sub_folder_path = os.path.join(main_old_folder, sub_folder) #joins so that the next line's path is valid
+        for img_file in os.listdir(sub_folder_path):                #iterate over all subfolders e.g. WF-1
+            img_file_path = os.path.join(sub_folder_path, img_file) #gets the path to the image to be processed 
+            newpath = os.path.join(main_new_folder, sub_folder) #gets the path where the image will be saved
+            
 
-main_new_folder = r"training images(new)"
-main_old_folder = r"training images"
-for sub_folder in os.listdir(main_old_folder):
-    sub_folder_path = os.path.join(main_old_folder, sub_folder) #joins so that the next line's path is valid
-    for img_file in os.listdir(sub_folder_path):
-        #print(img_file)
-        img_file_path = os.path.join(sub_folder_path, img_file)
-        #print(img_file_path)
-        
-        newpath = os.path.join(main_new_folder, sub_folder) 
-        #print(newpath)
-        
-        if not os.path.exists(newpath):
-            os.makedirs(newpath)
-        output_path = os.path.join(newpath, img_file) #creates the path for the new image
-        
+            if not os.path.exists(newpath):
+                os.makedirs(newpath)
+            output_path = os.path.join(newpath, img_file) #creates the path for the new image
+            
 
-        #Only processes unprocessed images
-        checker = 0
-        for new_sub_folder in os.listdir(main_new_folder):
-            new_sub_folder = os.path.join(main_new_folder, new_sub_folder) #joins so that the next line's path is valid
-            for new_img_file in os.listdir(new_sub_folder):
-                if new_img_file == img_file:
-                    checker = 1
-                
+            #Only processes unprocessed images
+            checker = 0
+            for new_sub_folder in os.listdir(main_new_folder):
+                new_sub_folder = os.path.join(main_new_folder, new_sub_folder) #joins so that the next line's path is valid
+                for new_img_file in os.listdir(new_sub_folder):
+                    if new_img_file == img_file:
+                        checker = 1
+                    
 
-        if checker == 0:
-            processed_image = Cropper(img_file_path) #processes the image
-            print(newpath)
-            print(output_path)
-            cv2.imwrite(output_path, cv2.cvtColor(processed_image, cv2.COLOR_RGB2BGR)) #saves the new file
+            if checker == 0:
+                processed_image = Cropper(img_file_path) #processes the image
+                print(newpath)
+                print(output_path)
+                cv2.imwrite(output_path, cv2.cvtColor(processed_image, cv2.COLOR_RGB2BGR)) #saves the new file
 
-        
-       
+            
+if __name__ == "__main__":  
+    main_old_folder = r"training images"        #where the images to be processed will be retrieved from
+    main_new_folder = r"training images(new)"   #where the new images will be sent
+    Process(main_old_folder, main_new_folder)
 
-        

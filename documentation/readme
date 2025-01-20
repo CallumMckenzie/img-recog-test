@@ -12,6 +12,7 @@ Upcoming features:
 1. GUI that combines all the steps above
 2. a parrallel process for setting a pointer and extracting masks (for background cropping)
 3. A functional conv2D model
+4. A pre-prepared running environment
 
 Objectives:
 1. Automate the whale identification process as much as possible
@@ -34,3 +35,19 @@ Programs and how they function:
     After the mask has been confirmed the program then removes the background and saves the image to a new database folder system to be used in the next program
 
     ![alt text](image-2.png)
+
+Cropper notes:
+    * Cropper needs to get pointers first and parrallel process all the images,
+    * It then needs to display all the masks side-by-side in a simplified user interface allowing the user
+        to easily select the mask they want saved to the database
+    * pointer information should be aquired by the user clicking on the whale tail
+    * need to allow the user to manually determine the location of the images to be processed
+        the output location should always remain the same though
+
+
+\WF-42\WF-42 2018 (2).png needs to be recropped
+
+in the AI execution program, put the image side-by-side with an image of the ai's best guess for manual
+validation
+
+Once validation has occured, move the image into the database for upload
