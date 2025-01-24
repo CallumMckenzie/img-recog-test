@@ -142,8 +142,7 @@ def Process(main_old_folder, main_new_folder):
                 print(newpath)
                 print(output_path)
                 cv2.imwrite(output_path, cv2.cvtColor(processed_image, cv2.COLOR_RGB2BGR)) #saves the new file
-
-            
+           
 if __name__ == "__main__":  
     main_old_folder = r"training images"        #where the images to be processed will be retrieved from
     main_new_folder = r"training images(new)"   #where the new images will be sent
